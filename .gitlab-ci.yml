@@ -23,15 +23,20 @@ run_lint_tests:
   after_script:
     - echo "clearing test"
 
-#build
 build_image:
   stage: build
   script:
     - echo "buil the image"
     - echo "tagg image"
 
-#deploy
 push_image:
+  stage: build
+  script:
+    - echo "loog docker regs"
+    - echo "Push docker image"
+
+
+deploy_image:
   stage: deploy
   script:
     - echo "loog docker regs"
