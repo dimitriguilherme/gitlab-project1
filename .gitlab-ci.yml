@@ -14,15 +14,15 @@ run_unit_test:
   after_script:
     - echo "clean"
     
-run_lint_tests:
-  stage: test
-  before_script:
-    - echo "preparing test"
-  script:
-    - script:
-      - echo "running"
-  after_script:
-    - echo "clearing test"
+# run_lint_tests:
+#   stage: test
+#   before_script:
+#     - echo "preparing test"
+#   script:
+#     - script:
+#       - echo "running"
+#   after_script:
+#     - echo "clearing test"
 
 #build
 build_image:
