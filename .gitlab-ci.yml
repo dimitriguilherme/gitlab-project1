@@ -3,8 +3,7 @@ workflow:
 #if branch is not master
     - if: $CI_COMMIT_BRANCH != "master"
       when: never
-    - when: always
-
+#    - when: always
 
 stages:
   - test
