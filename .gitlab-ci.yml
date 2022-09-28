@@ -6,7 +6,7 @@ stages:
 
 #test
 run_unit_test:
-  stage: test
+  stage: testgit
   before_script:
     - echo "preparando testes"
   script:
