@@ -4,16 +4,16 @@ stages:
   - deploy
 
 
-#test
+#test#
 run_unit_test:
-  stage: testgit
+  stage: test
   before_script:
     - echo "preparando testes"
   script:
     - echo "run teste"
   after_script:
     - echo "clean"
-
+    
 run_lint_tests:
   stage: test
   before_script:
