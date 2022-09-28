@@ -1,4 +1,12 @@
-run_test:
+stages:
+  - test
+  - build
+  - deploy
+
+
+#test
+run_unit_test:
+  stage: test
   before_script:
     - echo "preparando testes"
   script:
@@ -6,12 +14,26 @@ run_test:
   after_script:
     - echo "clean"
 
+run_lint_tests:
+  stage: test
+  before_script:
+    - echo "preparing test"
+  script:
+    - scrit:
+      - echo "running"
+  after_script:
+    - echo "clearing test"
+
+#build
 build_image:
+  stage: build
   script:
     - echo "buil the image"
     - echo "tagg image"
 
+#deploy
 push_image:
+  stage: deploy
   script:
     - echo "loog docker regs"
     - echo "Push docker image"
