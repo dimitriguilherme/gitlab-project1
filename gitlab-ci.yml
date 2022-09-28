@@ -16,3 +16,4 @@ push_image:
     - echo "loog docker regs"
     - echo "Push docker image"
 ##
+s
