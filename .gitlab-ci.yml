@@ -31,6 +31,8 @@ build_image:
 
 push_image:
   stage: build
+  needs:
+    - build_image
   script:
     - echo "loog docker regs"
     - echo "Push docker image"
