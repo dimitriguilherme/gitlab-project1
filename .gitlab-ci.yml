@@ -9,6 +9,10 @@ run_unit_test:
   stage: test
   before_script:
     - echo "preparando testes"
+    - pwd
+    - ls
+    - mkdir test-data
+    - ls
   script:
     - echo "run teste"
   after_script:
@@ -32,7 +36,7 @@ build_image:
 push_image:
   stage: build
   needs:
-    - build_image
+    - build_image 
   script:
     - echo "loog docker regs"
     - echo "Push docker image"
