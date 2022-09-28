@@ -62,6 +62,7 @@ deploy_image:
   #   - master2
   stage: deploy
   script:
-    - echo "loog docker regs TO $DEPLOYMENT_ENVIRONMENT "
+    - echo "loog docker regs TO $DEPLOYMENT_ENVIRONMENT  using $PROPERTIES_FILE"
+    - cat $PROPERTIES_FILE
     - echo "Push docker image"
 
