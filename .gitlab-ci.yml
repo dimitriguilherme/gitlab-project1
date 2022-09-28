@@ -19,7 +19,7 @@ run_lint_tests:
   before_script:
     - echo "preparing test"
   script:
-    - scrit:
+    - script:
       - echo "running"
   after_script:
     - echo "clearing test"
