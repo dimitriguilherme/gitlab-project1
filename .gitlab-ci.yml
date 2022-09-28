@@ -1,7 +1,7 @@
 workflow:
   rules:
 #if branch is not master
-    - if: $CI_COMMIT_BRANCH != "master"
+    - if: $CI_COMMIT_BRANCH != "master" && $$CI_PIPELINE_SOURCE != "merge_request_event"
       when: never
 #    - when: always
 
@@ -13,6 +13,8 @@ stages:
 
 #test#
 run_unit_test:
+  # only:
+  #   - test
   stage: test
   before_script:
     - echo "preparando testes"
@@ -27,6 +29,8 @@ run_unit_test:
     
 
 run_lint_tests:
+  # only:
+  #   - test
   stage: test
   before_script:
     - echo "preparing test"
