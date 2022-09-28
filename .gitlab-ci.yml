@@ -10,7 +10,6 @@ stages:
   - build
   - deploy
 
-
 #test#
 run_unit_test:
   only:
