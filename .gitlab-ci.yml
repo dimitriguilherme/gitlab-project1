@@ -1,0 +1,18 @@
+run_test:
+  before_script:
+    - echo "preparando testes"
+  script:
+    - echo "run teste"
+  after_script:
+    - echo "clean"
+
+build_image:
+  script:
+    - echo "buil the image"
+    - echo "tagg image"
+
+push_image:
+  script:
+    - echo "loog docker regs"
+    - echo "Push docker image"
+
