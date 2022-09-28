@@ -13,8 +13,8 @@ stages:
 
 #test#
 run_unit_test:
-  # only:
-  #   - test
+  only:
+    - master
   stage: test
   before_script:
     - echo "preparando testes"
