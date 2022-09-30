@@ -32,6 +32,10 @@ run_unit_test:
     - npm install
   after_script:
     - echo "clean"
+  artifacts:
+    when: always
+    reports:
+      junit: app/junit.xml
     
 
 # run_lint_tests:
