@@ -65,7 +65,7 @@ build_image:
   stage: build
   script:
     - echo "buil the image"
-    - docker build -t $CI_REGISTRY_IMAGE:1.0 .
+    - docker build -t $CI_REGISTRY_IMAGE .
 
 
 
