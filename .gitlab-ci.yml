@@ -60,7 +60,12 @@ build_image:
     - echo "buil the image"
     - docker build -t $CI_REGISTRY_IMAGE:1.0 .
 
+
+
 push_image:
+  image: gitlab/dind
+  services:
+    - docker:dind
   # - tags:
   #   - runners?
   #   - runner2?
