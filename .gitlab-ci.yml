@@ -70,7 +70,7 @@ build_image:
     - ec2
   script:
     - echo "buil the image"
-    - docker build -t $CI_REGISTRY_IMAGE:1.0 .
+    - docker build -t $CI_REGISTRY_IMAGE/microservice/payment:1.0 .
 
 
 
@@ -88,7 +88,7 @@ push_image:
   stage: build
   needs:
     - build_image
-  tags:
+  tags: 
     - ec2
   before_script:
     - echo "docker registry is $CI_REGISTRY"
@@ -97,7 +97,7 @@ push_image:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - echo "docker push"
-    - docker push $CI_REGISTRY_IMAGE:1.0
+    - docker push $CI_REGISTRY_IMAGE/microservice/payment:1.0
 
 
 # deploy_image:
@@ -107,4 +107,23 @@ push_image:
 #   script:
 #     - echo "loog docker regs TO $DEPLOYMENT_ENVIRONMENT  using $PROPERTIES_FILE"
 #     - echo "Push docker image"
+
+
+
+
+
+
+
+#########
+# https://gitlab.com/gitlab-org/gitlab-runner/-/issues/26605
+# Error de environment debian 11, comentar linhas
+# root@debian:/home/gitlab-runner# cat .bash_logout 
+# # ~/.bash_logout: executed by bash(1) when login shell exits.
+
+# # when leaving the console clear the screen to increase privacy
+
+# if [ "$SHLVL" = 1 ]; then
+#     [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q
+# fi
+#########
 
