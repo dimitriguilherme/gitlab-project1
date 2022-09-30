@@ -50,6 +50,7 @@ run_unit_test:
 #     - echo "clearing test"
 
 build_image:
+  image: node:17-alpine3.14
   # - tags:
   #   - runners?
   #   - runner2?
@@ -61,6 +62,7 @@ build_image:
     - docker build -t registry.gitlab.com/devops-test-d/gitlab-project1:1.0 .
 
 push_image:
+  image: node:17-alpine3.14
   # - tags:
   #   - runners?
   #   - runner2?
