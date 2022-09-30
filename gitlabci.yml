@@ -1,0 +1,71 @@
+#image: node:17-alpine
+
+# workflow:
+#   rules:
+# #if branch is not master
+#     - if: $CI_COMMIT_BRANCH != "master" && $CI_PIPELINE_SOURCE != "merge_request_event"
+#       when: never
+#     - when: always
+
+stages:
+  - test
+  - build
+  - deploy
+
+#test
+run_unit_test:
+  # - tags:
+  #   - runners?
+  # only:
+  #   - master
+  stage: test
+  before_script:
+    - echo "preparando testes for $MICRO_SERVICE_NAME"
+    - pwd
+    - ls
+    - mkdir test-data
+    - ls
+  script:
+    - echo "run teste"
+  after_script:
+    - echo "clean"
+    
+
+run_lint_tests:
+  # only:
+  #   - test
+  stage: test
+  before_script:
+    - echo "preparing test"
+  script:  
+    - echo "running"
+  after_script:
+    - echo "clearing test"
+
+build_image:
+  # only:
+  #   - master
+  stage: build
+  script:
+    - echo "buil the image"
+    - echo "tagg image"
+
+push_image:
+  # only:
+  #   - master
+  stage: build
+  needs:
+    - build_image 
+  script:
+    - echo "loog docker regs"
+    - echo "Push docker image"
+
+
+deploy_image:
+  # only:
+  #   - master2
+  stage: deploy
+  script:
+    - echo "loog docker regs TO $DEPLOYMENT_ENVIRONMENT  using $PROPERTIES_FILE"
+    - echo "Push docker image"
+
