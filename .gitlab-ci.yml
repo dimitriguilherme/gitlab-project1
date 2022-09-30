@@ -13,6 +13,9 @@ stages:
 #test
 run_unit_test:
   image: node:17-alpine3.14
+  tags:
+    - ec2
+    - shell  
   # - tags:
   #   - runners?
   #   - runner2?
@@ -36,10 +39,11 @@ run_unit_test:
       junit: app/junit.xml
   after_script:
     - echo "clean"
-    
-image: gitlab/dind
-services:
-  - docker:dind
+
+###image for test error    
+# image: gitlab/dind
+# services:
+#   - docker:dind
 
 # run_lint_tests:
 #   # only:
@@ -63,9 +67,12 @@ build_image:
   # only:
   #   - master
   stage: build
+  tags:
+    - ec2
+    - shell  
   script:
     - echo "buil the image"
-    - docker build -t $CI_REGISTRY_IMAGE .
+    - docker build -t $CI_REGISTRY_IMAGE:1.0 .
 
 
 
@@ -82,7 +89,10 @@ push_image:
 #   #   - master
   stage: build
   needs:
-    - build_image 
+    - build_image
+  tags:
+    - ec2
+    - shell
   before_script:
     - echo "docker registry is $CI_REGISTRY"
     - echo "docker username is $CI_REGISTRY_USER"
@@ -90,7 +100,6 @@ push_image:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - echo "docker push"
-    - docker tag $CI_REGISTRY_IMAGE $CI_REGISTRY_IMAGE:1.0
     - docker push $CI_REGISTRY_IMAGE:1.0
 
 
