@@ -49,23 +49,33 @@ run_unit_test:
 #   after_script:
 #     - echo "clearing test"
 
-# build_image:
-#   # only:
-#   #   - master
-#   stage: build
-#   script:
-#     - echo "buil the image"
-#     - echo "tagg image"
+build_image:
+  # - tags:
+  #   - runners?
+  #   - runner2?
+  # only:
+  #   - master
+  stage: build
+  script:
+    - echo "buil the image"
+    - docker build -t registry.gitlab.com/devops-test-d/gitlab-project1:1.0 .
 
-# push_image:
+push_image:
+  # - tags:
+  #   - runners?
+  #   - runner2?
+  # only:
+  #   - master
 #   # only:
 #   #   - master
-#   stage: build
-#   needs:
-#     - build_image 
-#   script:
-#     - echo "loog docker regs"
-#     - echo "Push docker image"
+  stage: deploy
+  needs:
+    - build_image 
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD registry.gitlab.com
+  script:
+    - echo "docker push"
+    - docker push registry.gitlab.com/devops-test-d/gitlab-project1:1.0
 
 
 # deploy_image:
