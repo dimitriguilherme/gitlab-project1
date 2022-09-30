@@ -66,6 +66,9 @@ build_image:
 
 
 push_image:
+  image: gitlab/dind
+  services:
+    - docker:dind
   # - tags:
   #   - runners?
   #   - runner2?
