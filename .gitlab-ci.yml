@@ -50,6 +50,7 @@ run_unit_test:
 #     - echo "clearing test"
 
 build_image:
+  #https://stackoverflow.com/questions/51196435/gitlab-ci-docker-command-not-found
   image: gitlab/dind
   services:
     - docker:dind
@@ -61,7 +62,7 @@ build_image:
   stage: build
   script:
     - echo "buil the image"
-    - docker build -t $CI_REGISTRY_IMAGE:1.0 .
+    - docker build -t $CI_REGISTRY_IMAGE .
 
 
 
@@ -86,7 +87,7 @@ push_image:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - echo "docker push"
-    - docker push $CI_REGISTRY_IMAGE:1.0
+    - docker push $CI_REGISTRY_IMAGE
 
 
 # deploy_image:
