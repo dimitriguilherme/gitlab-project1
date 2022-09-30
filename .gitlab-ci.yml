@@ -116,6 +116,8 @@ deploy_to_dev:
   stage: deploy
   tags:
     - ec2
+  before_script:
+    - chmod 400 $SSH_PRIVATE_KEY
   script:
     - ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY -p 2205 vader@192.168.1.110 "ls -l"
 #   #  ssh -p 2205 root@192.168.1.110
