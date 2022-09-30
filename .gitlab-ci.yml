@@ -15,7 +15,6 @@ run_unit_test:
   image: node:17-alpine3.14
   tags:
     - ec2
-    - shell  
   # - tags:
   #   - runners?
   #   - runner2?
@@ -69,7 +68,6 @@ build_image:
   stage: build
   tags:
     - ec2
-    - shell  
   script:
     - echo "buil the image"
     - docker build -t $CI_REGISTRY_IMAGE:1.0 .
@@ -92,7 +90,6 @@ push_image:
     - build_image
   tags:
     - ec2
-    - shell
   before_script:
     - echo "docker registry is $CI_REGISTRY"
     - echo "docker username is $CI_REGISTRY_USER"
