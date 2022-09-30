@@ -50,6 +50,9 @@ run_unit_test:
 #     - echo "clearing test"
 
 build_image:
+  image: gitlab/dind
+  services:
+    - docker:dind
   # - tags:
   #   - runners?
   #   - runner2?
@@ -63,9 +66,6 @@ build_image:
 
 
 push_image:
-  image: gitlab/dind
-  services:
-    - docker:dind
   # - tags:
   #   - runners?
   #   - runner2?
