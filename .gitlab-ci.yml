@@ -30,12 +30,12 @@ run_unit_test:
   script:
     - echo "run teste"
     - npm install
-  after_script:
-    - echo "clean"
   artifacts:
     when: always
     reports:
       junit: app/junit.xml
+  after_script:
+    - echo "clean"
     
 
 # run_lint_tests:
