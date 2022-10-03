@@ -1,0 +1,6 @@
+version: "3.3"
+services:
+  app:
+    image: $CI_REGISTRY_IMAGE/microservice/$MICRO_SERVICE:1.2
+    ports:
+      - 3000:3000

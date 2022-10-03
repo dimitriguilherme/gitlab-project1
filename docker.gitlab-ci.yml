@@ -1,0 +1,153 @@
+# workflow:
+#   rules:
+# #if branch is not master
+#     - if: $CI_COMMIT_BRANCH != "master" && $CI_PIPELINE_SOURCE != "merge_request_event"
+#       when: never
+#     - when: always
+#
+
+
+
+# variables:
+##   IMAGE_NAME: $CI_REGISTRY_IMAGE/microservice/$MICRO_SERVICE
+#   IMAGE_NAME: $CI_REGISTRY_IMAGE
+#   IMAGE_TAG: "1.1"
+
+stages:
+  - test
+  - build
+  - deploy
+
+#test
+run_unit_test:
+  image: node:17-alpine3.14
+  tags:
+    - ec2
+  # - tags:
+  #   - runners?
+  #   - runner2?
+  # only:
+  #   - master
+  stage: test
+  before_script:
+    # - echo "preparando testes for $MICRO_SERVICE_NAME"
+    # - pwd
+    # - ls
+    # - mkdir test-data
+    # - ls
+    - cd app
+    - npm install
+  script:
+    - echo "run teste"
+    - npm test
+  artifacts:
+    when: always
+    reports:
+      junit: app/junit.xml
+  after_script:
+    - echo "clean"
+
+###image for test error    
+# image: gitlab/dind
+# services:
+#   - docker:dind
+
+# run_lint_tests:
+#   # only:
+#   #   - test
+#   stage: test
+#   before_script:
+#     - echo "preparing test"
+#   script:  
+#     - echo "running"
+#   after_script:
+#     - echo "clearing test"
+
+build_image:
+  #https://stackoverflow.com/questions/51196435/gitlab-ci-docker-command-not-found
+  # image: gitlab/dind
+  # services:
+  #   - docker:dind
+  # - tags:
+  #   - runners?
+  #   - runner2?
+  # only:
+  #   - master
+  stage: build
+  tags:
+    - ec2
+  script:
+    - echo "buil the image"
+    - docker build -t $CI_REGISTRY_IMAGE/microservice/payment:1.0 .
+  #  - docker build -t $CI_REGISTRY_IMAGE/microservice/$MICRO_SERVICE:1.0 .
+  #  - docker build -t $IMAGE_NAME:$IMAGE_TAG . 
+
+
+
+push_image:
+  # image: gitlab/dind
+  # services:
+  #   - docker:dind
+  # - tags:
+  #   - runners?
+  #   - runner2?
+  # only:
+  #   - master
+#   # only:
+#   #   - master
+  stage: build
+  needs:
+    - build_image
+  tags: 
+    - ec2
+  before_script:
+    - echo "docker registry is $CI_REGISTRY"
+    - echo "docker username is $CI_REGISTRY_USER"
+    - echo "docker image repo is $CI_REGISTRY_IMAGE"
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - echo "docker push"
+    - docker push $CI_REGISTRY_IMAGE/microservice/payment:1.0
+#    - docker push $IMAGE_NAME:$IMAGE_TAG
+
+
+
+deploy_to_dev:
+  stage: deploy
+  tags:
+    - ec2
+  before_script:
+    - chmod 400 $SSH_PRIVATE_KEY
+  script:
+    - ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY -p 2205 vader@192.168.1.110 "docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY && docker run -d -p 3000:3000 $CI_REGISTRY_IMAGE/microservice/payment:1.0"
+#   #  ssh -p 2205 root@192.168.1.110
+
+  # environment:
+  #   name: development
+  #   url: http://awsurl:3000
+
+
+
+#   script:
+#     - echo "loog docker regs TO $DEPLOYMENT_ENVIRONMENT  using $PROPERTIES_FILE"
+#     - echo "Push docker image"
+
+
+
+
+
+
+
+#########
+# https://gitlab.com/gitlab-org/gitlab-runner/-/issues/26605
+# Error de environment debian 11, comentar linhas
+# root@debian:/home/gitlab-runner# cat .bash_logout 
+# # ~/.bash_logout: executed by bash(1) when login shell exits.
+
+# # when leaving the console clear the screen to increase privacy
+
+# if [ "$SHLVL" = 1 ]; then
+#     [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q
+# fi
+#########
+
