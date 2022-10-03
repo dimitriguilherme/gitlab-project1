@@ -119,8 +119,7 @@ deploy_to_dev:
   before_script:
     - chmod 400 $SSH_PRIVATE_KEY
   script:
-    - ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY -p 2205 vader@192.168.1.110 
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY && docker run -d -p 3000:3000 $CI_REGISTRY_IMAGE/microservice/payment:1.0"
+    - ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY -p 2205 vader@192.168.1.110 "docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY && docker run -d -p 3000:3000 $CI_REGISTRY_IMAGE/microservice/payment:1.0"
 #   #  ssh -p 2205 root@192.168.1.110
 
    
